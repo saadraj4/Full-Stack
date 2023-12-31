@@ -59,6 +59,28 @@ app.delete("/students/:id", async (req, res) => {
     });
 });
 
+
+// search a user 
+app.post('/search', (req, res) => {
+  const { name, location } = req.body;
+
+  console.log('name: ', name);
+  console.log('location: ', location);
+
+  if (!name || !location) {
+    return res.status(400).json({ error: 'Both name and location are required parameters.' });
+  }
+
+  Student.find({ name, location })
+    .then((student) => {
+      res.json(student);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+});
+
+
 // updating the Student
 // getting specific user and sending to frontend
 app.get("/students/:id", (req, res) => {
